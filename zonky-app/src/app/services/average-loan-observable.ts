@@ -68,9 +68,9 @@ export class AverageLoanObservableProvider {
       response => {
 
         // if process was tear down, loaded loans are not processed
-        if (state.stopLoading)
+        if (state.stopLoading)         
           return;
-
+        
         // loads data
         let total = parseInt(response.headers.get("X-Total"));
         let loans = response.body;
@@ -81,7 +81,7 @@ export class AverageLoanObservableProvider {
         info.currentCount += loans.length;
         info.sum += this.getSum(loans);
         info.average = info.currentCount <= 0 ? 0 : Math.round(info.sum / info.currentCount);
-        info.progress = info.currentCount / info.total;
+        info.progress = Math.round(info.currentCount / info.total * 100);
 
 
         // pass average info to GUI      

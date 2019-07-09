@@ -10,7 +10,7 @@ import { AverageLoanObservableProvider } from './average-loan-observable';
 export class ApiAdapterService  {
   
   readonly apiBaseUrl = "https://api.zonky.cz";         // determines root url of Zonky API
-  readonly maxItemsByRequest = 1000;                    // determines count of items catched by one request
+  readonly maxItemsByRequest = 500;                    // determines count of items catched by one request
   readonly observableProvider: AverageLoanObservableProvider;
   
   constructor(private httpClient: HttpClient) {   
@@ -22,7 +22,8 @@ export class ApiAdapterService  {
   getAverageLoansByRating(rating: string) {
 
     // assembles url query
-    let url = this.apiBaseUrl + "/loans/marketplace?rating__eq=" + encodeURIComponent(rating.toUpperCase());
+    rating = rating.toUpperCase();
+    let url = this.apiBaseUrl + "/loans/marketplace?rating__eq=" + encodeURIComponent(rating);
 
     // creates observable
     let result = this.observableProvider.getAverageLoanObservable(url, this.maxItemsByRequest)

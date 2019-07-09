@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiAdapterService } from "../services/api-adapter.service";
+import { Subscription } from "rxjs"
 
 // component shows average loans by rating
 @Component({
@@ -7,23 +8,45 @@ import { ApiAdapterService } from "../services/api-adapter.service";
   templateUrl: './average-loan.component.html',
   styleUrls: ['./average-loan.component.css']
 })
-export class AverageLoanComponent implements OnInit {
+export class AverageLoanComponent {
 
-  loans: MarketplaceLoanResult[];
-  averageLoan: AverageLoanInfo;
-  total: number;
+  rating: string = 'A';
+  averageLoan: AverageLoanInfo = null;  
+  inProgress: boolean = false;
+  currentSubscription: Subscription = null;
+  errorMessage: string = null;
 
+    
   constructor(private apiAdapter: ApiAdapterService) { }
+ 
 
-  // initializes component
-  ngOnInit() {
+  compute() {
 
-    this.apiAdapter.getAverageLoansByRating("B").subscribe(
+    // stops loading of previous query, if any
+    if (this.inProgress) {
+      this.currentSubscription.unsubscribe();
+      this.inProgress = false;
+    }
+
+    // stars loading of new query
+    this.inProgress = true;
+    this.errorMessage = null;
+    this.currentSubscription = this.apiAdapter.getAverageLoansByRating(this.rating).subscribe(
+
+      // next
       averageLoan => this.averageLoan = averageLoan,
-      (err) => alert("error: " + err.message),
-      () => alert("complete")
-    );
-  
+
+      // error
+      (err) => {
+        this.errorMessage = err.message;
+        this.averageLoan = null;
+        this.inProgress = false;        
+      },
+
+      // complete
+      () => this.inProgress = false
+      
+    );   
   }
 
 
