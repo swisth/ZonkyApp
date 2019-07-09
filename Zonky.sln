@@ -1,9 +1,9 @@
-﻿
+
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.705
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "zonky-app(1)", "zonky-app\", "{11711473-2AA6-473D-8E19-68AAEA30E85B}"
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "zonky-app", "zonky-app\", "{11711473-2AA6-473D-8E19-68AAEA30E85B}"
 	ProjectSection(WebsiteProperties) = preProject
 		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.0"
 		Debug.AspNetCompiler.VirtualPath = "/localhost_50423"
